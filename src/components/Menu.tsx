@@ -6,13 +6,13 @@ gsap.registerPlugin(useGSAP);
 
 const Menu = () => {
     const [ clicked , set_clicked ] = useState(false);
-    const [ timer , set_timer ] = useState(6);
+    const [ timer , set_timer ] = useState(5);
     const delete_undo = useRef(false);
     const timeout = useRef<number | null >(null);
     const interval = useRef<number | null>(null);
 
     const handleClick = () => {    
-
+        delete_undo.current = false;
         if( clicked ) {
             const tl = gsap.timeline();
             tl.to(".name", {
@@ -75,7 +75,7 @@ const Menu = () => {
                     opacity: 0,
                     duration: 0.4
                 })
-            }, 6000);
+            }, 5000);
 
             return ;
         }
@@ -103,16 +103,37 @@ const Menu = () => {
 
     const handleUndo = () => {
         delete_undo.current = true;
+        set_clicked(false);
+        set_timer(5)
         if ( timeout.current ){
             clearTimeout(timeout.current)
         }
         if ( interval.current ){
             clearInterval(interval.current)
         }
-        set_clicked(false);
-        set_timer(6)
         const tl = gsap.timeline();
-        tl.to(".name", {
+        tl
+        .to('.left', {
+            y : -80,
+            opacity: 0,
+            delay: 0.1,
+            duration: 0.1,
+            ease: "elastic.out(1.2, 0.3)",
+        }, "ek")
+        .to('.right', {
+            y: 80,
+            opacity: 0,
+            delay: 0.1,
+            duration: 0.1,
+            ease: "elastic.out(1.2, 0.3)",
+        }, "ek")
+        .to('.the_par', {
+            height: 410,
+            duration : 0.4,
+            ease: "elastic.out(2, 5)",
+        }, "ek")
+
+        .to(".name", {
             opacity: 1,
             duration : 0
         }, "d")
@@ -134,32 +155,10 @@ const Menu = () => {
         .to('.hr_line', {
             display: 'flex',
         }, "abc")
-        .to('.the_par', {
-            height: 410,
-            duration : 0.3,
-            ease: "elastic.out(2, 5)",
-        }, "abc")
+       
         .to('.deleted', {
             position: 'absolute',
-        },'abc')
-        .to('.left', {
-            y : -80,
-            opacity: 0,
-            delay: 0.1,
-            duration: 0,
-            ease: "elastic.out(1.2, 0.3)",
-        }, "abc")
-        .to('.right', {
-            opacity: 0,
-            delay: 0.1,
-            duration: 0,
-            ease: "elastic.out(1.2, 0.3)",
-        }, "abc")
-        .to('.right', {
-            y : 80,
-            duration: 0,
-            ease: "elastic.out(1.2, 0.3)",
-        });
+        },'abc');
 
         const tl2 = gsap.timeline();
         tl2.to(".value1", {
@@ -174,9 +173,7 @@ const Menu = () => {
             opacity: 0,
             duration: 0.8,
             ease: "elastic.out(1.2, 0.3)",
-          },
-          "abc",
-        );
+        }, "abc") ;
 
     }
 
