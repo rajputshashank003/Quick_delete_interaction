@@ -114,24 +114,30 @@ const Menu = () => {
         const tl = gsap.timeline();
         tl
         .to('.left', {
-            y : -80,
             opacity: 0,
             delay: 0.1,
-            duration: 0.1,
-            ease: "elastic.out(1.2, 0.3)",
+            duration: 0.3,
+            ease: "linear",
         }, "ek")
         .to('.right', {
-            y: 80,
             opacity: 0,
             delay: 0.1,
-            duration: 0.1,
-            ease: "elastic.out(1.2, 0.3)",
+            duration: 0.3,
+            ease: "linear",
         }, "ek")
         .to('.the_par', {
             height: 410,
             duration : 0.4,
             ease: "elastic.out(2, 5)",
-        }, "ek")
+        }, "late")
+        .to('.left', {
+            y:80,
+            duration: 0,
+        })
+        .to('.right', {
+            y: -80,
+            duration: 0,
+        })
 
         .to(".name", {
             opacity: 1,
